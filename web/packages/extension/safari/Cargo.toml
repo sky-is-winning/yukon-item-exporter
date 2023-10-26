@@ -1,0 +1,13 @@
+[package]
+name = "ruffle_web_safari"
+description = "Native binary for the Safari Web Extension"
+authors.workspace = true
+edition.workspace = true
+homepage.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+publish = false # This crate is useless unless packaged into an appex bundle
+
+[dependencies]
+objc = "0.2.7"

@@ -1,0 +1,8 @@
+[package]
+name = "ruffle_wstr"
+authors = ["Arthur Heuillard <arthur.heuillard<orange.fr>"]
+edition.workspace = true
+homepage.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true

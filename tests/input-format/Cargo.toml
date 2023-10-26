@@ -1,0 +1,13 @@
+[package]
+name = "ruffle_input_format"
+authors.workspace = true
+edition.workspace = true
+homepage.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+serde = { version = "1.0.189", features = ["derive"] }
+serde_json = "1.0.107"
+bitflags = "2.4.1"
