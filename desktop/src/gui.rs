@@ -195,13 +195,6 @@ impl RuffleGui {
         player.set_volume(self.volume_controls.get_volume());
     }
 
-    fn is_taking_screenshot(&mut self) -> bool {
-        let taking_screenshot = self.taking_screenshot;
-        self.taking_screenshot = false;
-
-        taking_screenshot
-    }
-
     /// Renders the main menu bar at the top of the window.
     fn main_menu_bar(&mut self, egui_ctx: &egui::Context, mut player: Option<&mut Player>) {
         egui::TopBottomPanel::top("menu_bar").show(egui_ctx, |ui| {

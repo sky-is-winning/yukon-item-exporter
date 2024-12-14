@@ -20,6 +20,7 @@ use url::Url;
 use winit::dpi::PhysicalSize;
 use winit::event_loop::EventLoop;
 use winit::window::{Theme, Window};
+use std::fs;
 
 /// Integration layer connecting wgpu+winit to egui.
 pub struct GuiController {
@@ -39,6 +40,9 @@ pub struct GuiController {
     size: PhysicalSize<u32>,
     /// If this is set, we should not render the main menu.
     no_gui: bool,
+    is_taking_screenshot: bool,
+    screenshot_name: String,
+    screenshot_dir: String,
 }
 
 impl GuiController {
@@ -122,6 +126,9 @@ impl GuiController {
             movie_view_renderer,
             size,
             no_gui: opt.no_gui,
+            is_taking_screenshot: false,
+            screenshot_name: String::new(),
+            screenshot_dir: String::new(),
         })
     }
 
@@ -192,8 +199,17 @@ impl GuiController {
         );
     }
 
+    pub fn set_screenshot_dir(&mut self, dir: String) {
+        self.screenshot_dir = dir;
+    }
+
+    pub fn take_screenshot(&mut self, name: String) {
+        self.is_taking_screenshot = true;
+        self.screenshot_name = name;
+    }
+
     pub fn render(&mut self, mut player: Option<MutexGuard<Player>>) {
-        let taking_screenshot = true;//self.gui.is_taking_screenshot();
+        let taking_screenshot = self.is_taking_screenshot;
         let surface_texture = self
             .surface
             .get_current_texture()
@@ -366,8 +382,11 @@ impl GuiController {
                 .duration_since(UNIX_EPOCH)
                 .expect("Time went backwards");
 
+            let dir = "exported_frames/".to_owned() + &self.screenshot_dir;
+            fs::create_dir_all(&dir).expect("Couldn't create directory");
+
             match image.save(
-                "ruffle_screenshots/".to_owned() + &unix_timestamp.as_millis().to_string() + ".png",
+                dir + &self.screenshot_name + ".png",
             ) {
                 Ok(()) => {
                     tracing::info!("Screenshot saved to {:?}.png", unix_timestamp);

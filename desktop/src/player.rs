@@ -48,6 +48,9 @@ pub struct PlayerOptions {
     pub frame_rate: Option<f64>,
     pub open_url_mode: OpenURLMode,
     pub dummy_external_interface: bool,
+    pub export_swf: Option<String>,
+    pub stage_width: Option<f64>,
+    pub stage_scale: Option<f64>,
 }
 
 impl From<&Opt> for PlayerOptions {
@@ -72,8 +75,11 @@ impl From<&Opt> for PlayerOptions {
             frame_rate: value.frame_rate,
             open_url_mode: value.open_url_mode,
             dummy_external_interface: value.dummy_external_interface,
+            export_swf: value.export_swf.clone(),
             socket_allowed: HashSet::from_iter(value.socket_allow.iter().cloned()),
             tcp_connections: value.tcp_connections,
+            stage_width: value.stage_width,
+            stage_scale: value.stage_scale,
         }
     }
 }
@@ -128,8 +134,10 @@ impl ActivePlayer {
         RENDER_INFO.with(|i| *i.borrow_mut() = Some(renderer.debug_info().to_string()));
 
         if opt.dummy_external_interface {
-            builder =
-                builder.with_external_interface(Box::<DesktopExternalInterfaceProvider>::default());
+            builder = builder.with_external_interface(Box::new(DesktopExternalInterfaceProvider {
+                event_loop: event_loop.clone(),
+                player: opt.clone(),
+            }));
         }
 
         let max_execution_duration = if opt.max_execution_duration == f64::INFINITY {

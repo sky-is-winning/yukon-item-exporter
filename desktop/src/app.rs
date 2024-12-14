@@ -37,8 +37,9 @@ impl App {
 
         let event_loop = EventLoopBuilder::with_user_event().build();
 
-        let min_window_size = (16, if opt.no_gui { 16 } else { MENU_HEIGHT + 16 }).into();
-        let max_window_size = get_screen_size(&event_loop);
+        let size = opt.stage_width.unwrap_or(150.0) * opt.stage_scale.unwrap_or(1.0);
+        let min_window_size = (size, size).into();
+        let max_window_size = (size, size).into();
 
         let window = WindowBuilder::new()
             .with_visible(false)
@@ -439,6 +440,14 @@ impl App {
                 winit::event::Event::UserEvent(RuffleEvent::ExitRequested) => {
                     *control_flow = ControlFlow::Exit;
                     return;
+                }
+
+                winit::event::Event::UserEvent(RuffleEvent::TakeScreenshot(screenshot_path)) => {
+                    self.gui.borrow_mut().take_screenshot(screenshot_path);
+                }
+
+                winit::event::Event::UserEvent(RuffleEvent::SetScreenshotDir(screenshot_dir)) => {
+                    self.gui.borrow_mut().set_screenshot_dir(screenshot_dir);
                 }
 
                 _ => (),

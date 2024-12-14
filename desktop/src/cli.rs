@@ -136,6 +136,18 @@ pub struct Opt {
     /// Hides the menu bar (the bar at the top of the window).
     #[clap(long)]
     pub no_gui: bool,
+
+    // Export swf
+    #[clap(long)]
+    pub export_swf: Option<String>,
+
+    // Stage width
+    #[clap(long)]
+    pub stage_width: Option<f64>,
+
+    // Stage scale
+    #[clap(long)]
+    pub stage_scale: Option<f64>,
 }
 
 fn parse_movie_file_or_url(path: &str) -> Result<Url, Error> {

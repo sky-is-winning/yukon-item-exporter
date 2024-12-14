@@ -1099,7 +1099,6 @@ async fn request_device(
 
     let try_features = [
         wgpu::Features::TEXTURE_ADAPTER_SPECIFIC_FORMAT_FEATURES,
-        wgpu::Features::SHADER_UNUSED_VERTEX_OUTPUT,
         wgpu::Features::TEXTURE_COMPRESSION_BC,
     ];
 

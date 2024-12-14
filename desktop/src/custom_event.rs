@@ -24,4 +24,8 @@ pub enum RuffleEvent {
 
     /// The user selected an item in the right-click context menu.
     ContextMenuItemClicked(usize),
+
+    TakeScreenshot(String),
+
+    SetScreenshotDir(String),
 }
