@@ -2,7 +2,7 @@
 
 This repo uses Ruffle to export frames for items, so they can be used in the Yukon client or any similar project.
 
-I recently massively overhauled this process, making it way easier. Just navigate to the releases section to download the installer, drag in your SWFs and you're good to go.
+I recently massively overhauled this process, making it way easier. Just navigate to the releases section to download the compiled binaries, open YukonExporter.exe, drag in your SWFs and you're good to go.
 
 ## Building from source:
 
